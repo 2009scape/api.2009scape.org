@@ -6,7 +6,8 @@ let parsers = require("./parsers");
 router.get('/', function(req, res, next) {
   res.json({ existing_routes: [
     "/config",
-    "/list_players",
+    "/listPlayers",
+    "/getPlayersByTotal",
     "/playersBySkill/:id",
     "/playerSkills/:playername"
   ] });
@@ -16,8 +17,12 @@ router.get('/config', function(req, res, next) {
     res.json(config);
   });
 
-router.get('/list_players', function(req, res, next) {
+router.get('/listPlayers', function(req, res, next) {
   res.json(parsers.playerSaves());
+});
+
+router.get('/getPlayersByTotal', function(req, res, next) {
+  res.json(parsers.getPlayersByTotal());
 });
 
 router.get('/playersBySkill/:id', function(req, res, next) {

@@ -15,6 +15,25 @@ function playerSaves() {
     return players;
 }
 
+function getPlayersByTotal() {
+    beautifulMap = [];
+    playerSaves(true).forEach(player => {
+        playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        level = 0;
+        xp = 0;
+        playerStats.skills.forEach(skill => {
+            level += Number(skill.static);
+            xp += Number(skill.experience);
+        });
+        beautifulMap.push({
+            username: player,
+            level,
+            xp
+        });
+    });
+    return beautifulMap.sort((a, b) => b.level - a.level);
+}
+
 function getPlayersBySkill(skillid) {
     beautifulMap = [];
     playerSaves(true).forEach(player => {
@@ -33,4 +52,4 @@ function getPlayerSkills(playername) {
     return playerStats.skills;
 }
 
-module.exports = { playerSaves, getPlayersBySkill, getPlayerSkills }
+module.exports = { playerSaves, getPlayersBySkill, getPlayerSkills, getPlayersByTotal }
