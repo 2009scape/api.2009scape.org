@@ -60,8 +60,8 @@ function playerSkills(playername) {
     return {
         skills: playerStats.skills,
         info: {
-            exp_multiplier: player.exp_multiplier,
-            iron_mode: player.ironManMode ? player.ironManMode : 0
+            exp_multiplier: playerStats.exp_multiplier,
+            iron_mode: playerStats.ironManMode ? player.ironManMode : 0
         }
     };
 }
