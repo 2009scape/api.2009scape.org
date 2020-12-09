@@ -30,8 +30,8 @@ function playersByTotal() {
                 username: player,
                 level,
                 xp,
-                exp_multiplier: player.exp_multiplier,
-                iron_mode: player.ironManMode ? player.ironManMode : 0
+                exp_multiplier: playerStats.exp_multiplier,
+                iron_mode: playerStats.ironManMode ? playerStats.ironManMode : 0
             });
         }
     });
@@ -47,8 +47,8 @@ function playersBySkill(skillid) {
                 username: player,
                 level: Number(playerStats.skills[skillid].static),
                 xp: Number(playerStats.skills[skillid].experience),
-                exp_multiplier: player.exp_multiplier,
-                iron_mode: player.ironManMode ? player.ironManMode : 0
+                exp_multiplier: playerStats.exp_multiplier,
+                iron_mode: playerStats.ironManMode ? playerStats.ironManMode : 0
             });
         }
     });
@@ -61,7 +61,7 @@ function playerSkills(playername) {
         skills: playerStats.skills,
         info: {
             exp_multiplier: playerStats.exp_multiplier,
-            iron_mode: playerStats.ironManMode ? player.ironManMode : 0
+            iron_mode: playerStats.ironManMode ? playerStats.ironManMode : "0"
         }
     };
 }
