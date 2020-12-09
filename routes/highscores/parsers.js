@@ -29,7 +29,9 @@ function playersByTotal() {
             beautifulMap.push({
                 username: player,
                 level,
-                xp
+                xp,
+                exp_multiplier: player.exp_multiplier,
+                iron_mode: player.ironManMode ? player.ironManMode : 0
             });
         }
     });
@@ -44,7 +46,9 @@ function playersBySkill(skillid) {
             beautifulMap.push({
                 username: player,
                 level: Number(playerStats.skills[skillid].static),
-                xp: Number(playerStats.skills[skillid].experience)
+                xp: Number(playerStats.skills[skillid].experience),
+                exp_multiplier: player.exp_multiplier,
+                iron_mode: player.ironManMode ? player.ironManMode : 0
             });
         }
     });
@@ -53,7 +57,13 @@ function playersBySkill(skillid) {
 
 function playerSkills(playername) {
     playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${playername}.json`, 'utf8'));
-    return playerStats.skills;
+    return {
+        skills: playerStats.skills,
+        info: {
+            exp_multiplier: player.exp_multiplier,
+            iron_mode: player.ironManMode ? player.ironManMode : 0
+        }
+    };
 }
 
 function ignoredPlayers() {
