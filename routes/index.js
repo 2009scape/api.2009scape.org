@@ -4,7 +4,7 @@ var router = express.Router();
 router.get('/', function(req, res, next) {
   res.json({ existing_routes: [
     "/",
-    "highscores/"
+    "hiscores/"
   ] });
 });
 
