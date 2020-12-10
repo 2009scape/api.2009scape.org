@@ -73,6 +73,10 @@ function ignoredPlayers() {
 function ignore(playername) {
     return playername === "red_bracket" ||
         playername === "ceikry" ||
+        playername === "loinmin" ||
+        playername === "patrick" ||
+        playername === "unclerob" ||
+        playername === "rangervaughn" ||
         playername.startsWith("mod_");
 }
 
