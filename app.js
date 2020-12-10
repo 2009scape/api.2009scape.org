@@ -9,6 +9,8 @@ var defaultRouter = require('./routes/index');
 let highscoresRouter = require('./routes/highscores');
 
 var app = express();
+app.options('*', cors()) // include before other routes
+
 app.use(cors())
 
 // view engine setup
