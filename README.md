@@ -1,13 +1,10 @@
-# 2009scape.org-backend
+# api.2009scape.org
 
-A basic Express router which serves as a read-only API to 2009scape.org
+A basic Express router which serves as an API to 2009scape
 
 ### Why?
 
-* 2009scape.org is hosted on Github Pages
-* That's free and forever, but static
-* This router allows it to fetch data from 2009scape's server
-* Could be easily modified to also write data
+* Mostly for 2009scape.org
 
 ## Installation and Running
 1. Clone repository and cd into it
