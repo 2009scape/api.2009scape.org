@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 let config = require("../../config");
 let parsers = require("./parsers");
+const rankedMap = require('./rankcalculator');
 
 router.get('/', function (req, res, next) {
   res.json({
@@ -11,7 +12,8 @@ router.get('/', function (req, res, next) {
       "/ignoredPlayers",
       "/playersByTotal",
       "/playersBySkill/:id",
-      "/playerSkills/:playername"
+      "/playerSkills/:playername",
+      "/rankedMap"
     ]
   });
 });
@@ -38,6 +40,10 @@ router.get('/playersBySkill/:id', function (req, res, next) {
 
 router.get('/playerSkills/:playername', function (req, res, next) {
   res.json(parsers.playerSkills(req.params.playername));
+});
+
+router.get('/rankedMap', function (req, res, next) {
+  res.json(rankedMap);
 });
 
 module.exports = router;

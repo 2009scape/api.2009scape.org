@@ -35,7 +35,7 @@ function playersByTotal() {
             });
         }
     });
-    return beautifulMap.sort((a, b) => b.level - a.level);
+    return beautifulMap.sort((a, b) => b.xp - a.xp);
 }
 
 function playersBySkill(skillid) {
@@ -52,7 +52,7 @@ function playersBySkill(skillid) {
             });
         }
     });
-    return beautifulMap.sort((a, b) => b.level - a.level);
+    return beautifulMap.sort((a, b) => b.xp - a.xp);
 }
 
 function playerSkills(playername) {
@@ -67,17 +67,11 @@ function playerSkills(playername) {
 }
 
 function ignoredPlayers() {
-    return ["red_bracket", "ceikry", "startsWith mod_"];
+    return ["red_bracket", "ceikry", "mod_woah", "loinmin", "patrick", "unclerob", "rangervaughn", "ohrisk", "mule_2", "callym"];
 }
 
 function ignore(playername) {
-    return playername === "red_bracket" ||
-        playername === "ceikry" ||
-        playername === "loinmin" ||
-        playername === "patrick" ||
-        playername === "unclerob" ||
-        playername === "rangervaughn" ||
-        playername.startsWith("mod_");
+    return ignoredPlayers().includes(playername);
 }
 
-module.exports = { playerSaves, playersBySkill, playerSkills, playersByTotal, ignoredPlayers }
+module.exports = { playerSaves, playersBySkill, playerSkills, playersByTotal, ignoredPlayers, ignore }
