@@ -35,7 +35,13 @@ function playersByTotal() {
             });
         }
     });
-    return beautifulMap.sort((a, b) => b.xp - a.xp);
+    return beautifulMap.sort((a, b) => {
+        if (b.level - a.level === 0) {
+            // Same total - go by XP
+            return b.xp - a.xp;
+        }
+        return b.level - a.level;
+    });
 }
 
 function playersBySkill(skillid) {
