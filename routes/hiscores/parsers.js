@@ -67,7 +67,7 @@ function playerSkills(playername) {
 }
 
 function ignoredPlayers() {
-    return ["red_bracket", "ceikry", "mod_woah", "loinmin", "patrick", "unclerob", "rangervaughn", "ohrisk", "mule_2", "callym", "shelly", ];
+    return ["red_bracket", "ceikry", "mod_woah", "loinmin", "patrick", "unclerob", "rangervaughn", "ohrisk", "mule_2", "callym", "shelly",];
 }
 
 function ignore(playername) {
