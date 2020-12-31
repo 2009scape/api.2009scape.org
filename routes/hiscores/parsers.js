@@ -83,6 +83,10 @@ function getTotalXp() {
     return { total_xp: Math.floor(totalPlayersExp) };
 }
 
+function getTotalSlayerTasks() {
+    
+}
+
 function ignoredPlayers() {
     return ["red_bracket", "ceikry", "mod_woah", "loinmin", "patrick", "unclerob", "rangervaughn", "ohrisk", "mule_2", "callym", "shelly",];
 }
