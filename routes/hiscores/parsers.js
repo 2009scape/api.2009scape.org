@@ -19,7 +19,7 @@ let totalPlayersExp = null;
 function playersByTotal() {
     totalPlayersExp = 0;
     beautifulMap = [];
-    playerSaves(true).forEach(player => {
+    playerSaves().forEach(player => {
         if (!ignore(player)) {
             playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
             level = 0;
@@ -49,7 +49,7 @@ function playersByTotal() {
 
 function playersBySkill(skillid) {
     beautifulMap = [];
-    playerSaves(true).forEach(player => {
+    playerSaves().forEach(player => {
         if (!ignore(player)) {
             playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
             beautifulMap.push({
@@ -75,7 +75,7 @@ function playerSkills(playername) {
     };
 }
 
-function getTotalXp() {
+function getServerTotalXp() {
     if (totalPlayersExp === null) {
         playersByTotal();
     }
@@ -83,8 +83,30 @@ function getTotalXp() {
     return { total_xp: Math.floor(totalPlayersExp) };
 }
 
-function getTotalSlayerTasks() {
-    
+/**
+ * Loops through every player save file and sums up a variable
+ * genericServerTotalCalculator(["slayer", "totalTasks"]) will return the sum of every playerSave["slayer"]["totalTasks"]
+ *  i.e. the sum of everyone's total slayer tasks
+ * 
+ * @param {[String]} details 
+ */
+function genericServerTotalCalculator(details) {
+    sum = 0;
+    playerSaves().forEach(player => {
+        if (!ignore(player)) {
+            stat = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+            for (let i = 0; i < details.length; i++) {
+                stat = stat[`${details[i]}`];
+            }
+            sum += Number(stat);
+        }
+    });
+
+    return sum;
+}
+
+function getServerTotalSlayerTasks() {
+    return { total_tasks: genericServerTotalCalculator(["slayer", "totalTasks"]) };
 }
 
 function ignoredPlayers() {
@@ -95,4 +117,4 @@ function ignore(playername) {
     return ignoredPlayers().includes(playername);
 }
 
-module.exports = { playerSaves, playersBySkill, playerSkills, playersByTotal, getTotalXp, ignoredPlayers, ignore }
+module.exports = { playerSaves, playersBySkill, playerSkills, playersByTotal, getServerTotalXp, getServerTotalSlayerTasks, ignoredPlayers, ignore }
