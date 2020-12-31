@@ -7,13 +7,14 @@ const rankedMap = require('./rankcalculator');
 router.get('/', function (req, res, next) {
   res.json({
     existing_routes: [
-      "/config",
-      "/listPlayers",
-      "/ignoredPlayers",
-      "/playersByTotal",
-      "/playersBySkill/:id",
-      "/playerSkills/:playername",
-      "/rankedMap"
+      "/hiscores/config",
+      "/hiscores/listPlayers",
+      "/hiscores/ignoredPlayers",
+      "/hiscores/playersByTotal",
+      "/hiscores/playersBySkill/:id",
+      "/hiscores/playerSkills/:playername",
+      "/hiscores/rankedMap",
+      "/hiscores/getTotalXp"
     ]
   });
 });
@@ -44,6 +45,10 @@ router.get('/playerSkills/:playername', function (req, res, next) {
 
 router.get('/rankedMap', function (req, res, next) {
   res.json(rankedMap);
+});
+
+router.get('/getTotalXp', function (req, res, next) {
+  res.json(parsers.getTotalXp());
 });
 
 module.exports = router;

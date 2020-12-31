@@ -15,7 +15,9 @@ function playerSaves() {
     return players;
 }
 
+let totalPlayersExp = null;
 function playersByTotal() {
+    totalPlayersExp = 0;
     beautifulMap = [];
     playerSaves(true).forEach(player => {
         if (!ignore(player)) {
@@ -26,6 +28,7 @@ function playersByTotal() {
                 level += Number(skill.static);
                 xp += Number(skill.experience);
             });
+            totalPlayersExp += xp; // Used to save calculations in another function
             beautifulMap.push({
                 username: player,
                 level,
@@ -72,6 +75,14 @@ function playerSkills(playername) {
     };
 }
 
+function getTotalXp() {
+    if (totalPlayersExp === null) {
+        playersByTotal();
+    }
+    console.log("Returning " + totalPlayersExp);
+    return { total_xp: Math.floor(totalPlayersExp) };
+}
+
 function ignoredPlayers() {
     return ["red_bracket", "ceikry", "mod_woah", "loinmin", "patrick", "unclerob", "rangervaughn", "ohrisk", "mule_2", "callym", "shelly",];
 }
@@ -80,4 +91,4 @@ function ignore(playername) {
     return ignoredPlayers().includes(playername);
 }
 
-module.exports = { playerSaves, playersBySkill, playerSkills, playersByTotal, ignoredPlayers, ignore }
+module.exports = { playerSaves, playersBySkill, playerSkills, playersByTotal, getTotalXp, ignoredPlayers, ignore }
