@@ -15,7 +15,6 @@ function playerSaves() {
     return players;
 }
 
-let totalPlayersExp = null;
 function playersByTotal() {
     totalPlayersExp = 0;
     beautifulMap = [];
@@ -28,7 +27,6 @@ function playersByTotal() {
                 level += Number(skill.static);
                 xp += Number(skill.experience);
             });
-            totalPlayersExp += xp; // Used to save calculations in another function
             beautifulMap.push({
                 username: player,
                 level,
@@ -75,26 +73,29 @@ function playerSkills(playername) {
     };
 }
 
-function getServerTotalXp() {
-    if (totalPlayersExp === null) {
-        playersByTotal();
-    }
-    console.log("Returning " + totalPlayersExp);
-    return { total_xp: Math.floor(totalPlayersExp) };
-}
-
 /**
  * Loops through every player save file and sums up a variable
  * genericServerTotalCalculator(["slayer", "totalTasks"]) will return the sum of every playerSave["slayer"]["totalTasks"]
  *  i.e. the sum of everyone's total slayer tasks
  * 
  * @param {[String]} details 
+ * @param {Object} restrictions - filter to provide (i.e only ironmen)
  */
-function genericServerTotalCalculator(details) {
+function genericServerTotalCalculator(details, restrictions) {
     sum = 0;
     playerSaves().forEach(player => {
         if (!ignore(player)) {
             stat = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+
+            // (Optional) check for restrictions
+            if (restrictions) {
+                if (restrictions.ironManMode && restrictions.ironManMode.length >= 1 && !restrictions.ironManMode.includes(stat.ironManMode)) {
+                    return;
+                }
+                if (restrictions.exp_multiplier && restrictions.exp_multiplier > Number(stat.exp_multiplier)) {
+                    return;
+                }
+            }
             for (let i = 0; i < details.length; i++) {
                 stat = stat[`${details[i]}`];
             }
@@ -105,8 +106,16 @@ function genericServerTotalCalculator(details) {
     return sum;
 }
 
-function getServerTotalSlayerTasks() {
-    return { total_tasks: genericServerTotalCalculator(["slayer", "totalTasks"]) };
+function getServerTotalXp(restrictions) {
+    total_xp = 0;
+    for (let i = 0; i < 24; i++) {
+        total_xp += Number(genericServerTotalCalculator(["skills", `${i}`, "experience"], restrictions));
+    }
+    return { total_xp };
+}
+
+function getServerTotalSlayerTasks(restrictions) {
+    return { total_tasks: genericServerTotalCalculator(["slayer", "totalTasks"], restrictions) };
 }
 
 function ignoredPlayers() {
