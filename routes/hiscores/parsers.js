@@ -89,10 +89,14 @@ function genericServerTotalCalculator(details, restrictions) {
 
             // (Optional) check for restrictions
             if (restrictions) {
-                if (restrictions.ironManMode && restrictions.ironManMode.length >= 1 && !restrictions.ironManMode.includes(stat.ironManMode)) {
-                    return;
+                if (restrictions.ironManMode && restrictions.ironManMode.length >= 1) {
+                    // Filter out based on ironmen filter, unless filter is set and no ironmen are ticked, in which case only show non-ironmen
+                    if (!restrictions.ironManMode.includes(stat.ironManMode) && !(!stat.ironManMode && JSON.stringify(restrictions.ironManMode) === JSON.stringify(['0', '0', '0']))) {
+                        return;
+                    }
                 }
-                if (restrictions.exp_multiplier && restrictions.exp_multiplier > Number(stat.exp_multiplier)) {
+                if (restrictions.exp_multiplier && Number(stat.exp_multiplier) > Number(restrictions.exp_multiplier)) {
+                    console.log(`${Number(stat.exp_multiplier)} > ${Number(restrictions.exp_multiplier)}`);
                     return;
                 }
             }
@@ -111,6 +115,7 @@ function getServerTotalXp(restrictions) {
     for (let i = 0; i < 24; i++) {
         total_xp += Number(genericServerTotalCalculator(["skills", `${i}`, "experience"], restrictions));
     }
+    console.log(total_xp);
     return { total_xp };
 }
 
