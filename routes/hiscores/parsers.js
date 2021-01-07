@@ -96,7 +96,6 @@ function genericServerTotalCalculator(details, restrictions) {
                     }
                 }
                 if (restrictions.exp_multiplier && Number(stat.exp_multiplier) > Number(restrictions.exp_multiplier)) {
-                    console.log(`${Number(stat.exp_multiplier)} > ${Number(restrictions.exp_multiplier)}`);
                     return;
                 }
             }
@@ -115,12 +114,44 @@ function getServerTotalXp(restrictions) {
     for (let i = 0; i < 24; i++) {
         total_xp += Number(genericServerTotalCalculator(["skills", `${i}`, "experience"], restrictions));
     }
-    console.log(total_xp);
     return { total_xp };
 }
 
 function getServerTotalSlayerTasks(restrictions) {
     return { total_tasks: genericServerTotalCalculator(["slayer", "totalTasks"], restrictions) };
+}
+
+function genericServerTotalAttributeCalculator(attribute, restrictions) {
+    sum = 0;
+    playerSaves().forEach(player => {
+        if (!ignore(player)) {
+            stat = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+
+            // (Optional) check for restrictions
+            if (restrictions) {
+                if (restrictions.ironManMode && restrictions.ironManMode.length >= 1) {
+                    // Filter out based on ironmen filter, unless filter is set and no ironmen are ticked, in which case only show non-ironmen
+                    if (!restrictions.ironManMode.includes(stat.ironManMode) && !(!stat.ironManMode && JSON.stringify(restrictions.ironManMode) === JSON.stringify(['0', '0', '0']))) {
+                        return;
+                    }
+                }
+                if (restrictions.exp_multiplier && Number(stat.exp_multiplier) > Number(restrictions.exp_multiplier)) {
+                    return;
+                }
+            }
+
+            if (stat.attributes) {
+                stat.attributes.forEach(attr => {
+                    if (attr.key === `stats_manager:${attribute}`) {
+                        console.log(`${player}: ${attr.value}`);
+                        sum += Number(attr.value);
+                    }
+                });
+            }
+        }
+    });
+
+    return { sum };
 }
 
 function ignoredPlayers() {
@@ -131,4 +162,14 @@ function ignore(playername) {
     return ignoredPlayers().includes(playername);
 }
 
-module.exports = { playerSaves, playersBySkill, playerSkills, playersByTotal, getServerTotalXp, getServerTotalSlayerTasks, ignoredPlayers, ignore }
+module.exports = {
+    playerSaves,
+    playersBySkill,
+    playerSkills,
+    playersByTotal,
+    getServerTotalXp,
+    getServerTotalSlayerTasks,
+    genericServerTotalAttributeCalculator,
+    ignoredPlayers,
+    ignore
+}

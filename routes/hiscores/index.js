@@ -15,7 +15,9 @@ router.get('/', function (req, res, next) {
       "/hiscores/playerSkills/:playername",
       "/hiscores/rankedMap",
       "/hiscores/getServerTotalXp/:restrictions",
-      "/hiscores/getServerTotalSlayerTasks/:restrictions"
+      "/hiscores/getServerTotalSlayerTasks/:restrictions",
+      "/hiscores/getServerTotalAttribute/:attribute",
+      "/hiscores/getServerTotalAttribute/:attribute/:restrictions"
     ]
   });
 });
@@ -54,6 +56,13 @@ router.get('/getServerTotalXp/:restrictions', function (req, res, next) {
 
 router.get('/getServerTotalSlayerTasks/:restrictions', function (req, res, next) {
   res.json(parsers.getServerTotalSlayerTasks(JSON.parse(decodeURI(req.params.restrictions))));
+});
+
+router.get('/getServerTotalAttribute/:attribute/:restrictions', function (req, res, next) {
+  res.json(parsers.genericServerTotalAttributeCalculator(req.params.attribute, JSON.parse(decodeURI(req.params.restrictions))));
+});
+router.get('/getServerTotalAttribute/:attribute/', function (req, res, next) {
+  res.json(parsers.genericServerTotalAttributeCalculator(req.params.attribute));
 });
 
 module.exports = router;
