@@ -58,11 +58,12 @@ router.get('/getServerTotalSlayerTasks/:restrictions', function (req, res, next)
   res.json(parsers.getServerTotalSlayerTasks(JSON.parse(decodeURI(req.params.restrictions))));
 });
 
-router.get('/getServerTotalAttribute/:attribute/:restrictions', function (req, res, next) {
-  res.json(parsers.genericServerTotalAttributeCalculator(req.params.attribute, JSON.parse(decodeURI(req.params.restrictions))));
-});
 router.get('/getServerTotalAttribute/:attribute/', function (req, res, next) {
   res.json(parsers.genericServerTotalAttributeCalculator(req.params.attribute));
+});
+
+router.get('/getServerTotalAttribute/:attribute/:restrictions', function (req, res, next) {
+  res.json(parsers.genericServerTotalAttributeCalculator(req.params.attribute, JSON.parse(decodeURI(req.params.restrictions))));
 });
 
 module.exports = router;

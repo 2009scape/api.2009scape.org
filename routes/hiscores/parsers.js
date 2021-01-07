@@ -143,7 +143,6 @@ function genericServerTotalAttributeCalculator(attribute, restrictions) {
             if (stat.attributes) {
                 stat.attributes.forEach(attr => {
                     if (attr.key === `stats_manager:${attribute}`) {
-                        console.log(`${player}: ${attr.value}`);
                         sum += Number(attr.value);
                     }
                 });
