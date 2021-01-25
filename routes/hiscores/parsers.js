@@ -154,7 +154,7 @@ function genericServerTotalAttributeCalculator(attribute, restrictions) {
 }
 
 function ignoredPlayers() {
-    return ["red_bracket", "ceikry", "mod_woah", "loinmin", "patrick", "unclerob", "rangervaughn", "ohrisk", "mule_2", "callym", "shelly", "dirkjan", "webbing10"];
+    return ["red_bracket", "ceikry", "mod_woah", "loinmin", "patrick", "unclerob", "rangervaughn", "ohrisk", "mule_2", "callym", "shelly", "dirkjan", "webbing10", "nijouh"];
 }
 
 function ignore(playername) {
