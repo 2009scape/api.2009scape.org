@@ -19,8 +19,8 @@ function playersByTotal() {
     totalPlayersExp = 0;
     beautifulMap = [];
     playerSaves().forEach(player => {
-        if (!ignore(player)) {
-            playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        if (!ignore(player, playerStats)) {
             level = 0;
             xp = 0;
             playerStats.skills.forEach(skill => {
@@ -48,8 +48,8 @@ function playersByTotal() {
 function playersBySkill(skillid) {
     beautifulMap = [];
     playerSaves().forEach(player => {
-        if (!ignore(player)) {
-            playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        if (!ignore(player, playerStats)) {
             beautifulMap.push({
                 username: player,
                 level: Number(playerStats.skills[skillid].static),
@@ -84,8 +84,8 @@ function playerSkills(playername) {
 function genericServerTotalCalculator(details, restrictions) {
     sum = 0;
     playerSaves().forEach(player => {
-        if (!ignore(player)) {
-            stat = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        stat = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        if (!ignore(player, stat)) {
 
             // (Optional) check for restrictions
             if (restrictions) {
@@ -124,8 +124,8 @@ function getServerTotalSlayerTasks(restrictions) {
 function genericServerTotalAttributeCalculator(attribute, restrictions) {
     sum = 0;
     playerSaves().forEach(player => {
-        if (!ignore(player)) {
-            stat = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        stat = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        if (!ignore(player, stat)) {
 
             // (Optional) check for restrictions
             if (restrictions) {
@@ -157,7 +157,7 @@ function ignoredPlayers() {
     return ["red_bracket", "ceikry", "mod_woah", "loinmin", "patrick", "unclerob", "rangervaughn", "ohrisk", "mule_2", "callym", "shelly", "dirkjan", "webbing10", "nijouh"];
 }
 
-function ignore(playername) {
+function ignore(playername, playerfile) {
     return ignoredPlayers().includes(playername);
 }
 

@@ -11,15 +11,15 @@ function createRankMap() {
     }
 
     parsers.playerSaves().forEach(player => {
-        if (!parsers.ignore(player)) {
-            playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        if (!parsers.ignore(player, playerStats)) {
 
             playerStats.skills.forEach((skill, index) => {
                 skills[index].push({
                     username: player,
                     xp: Number(skill.experience),
                     exp_multiplier: playerStats.exp_multiplier,
-                    iron_mode: playerStats.ironManMode ? playerStats.ironManMode : 0    
+                    iron_mode: playerStats.ironManMode ? playerStats.ironManMode : 0
                 })
             });
         }
