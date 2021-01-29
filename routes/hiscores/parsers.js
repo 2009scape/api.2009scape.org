@@ -158,7 +158,7 @@ function ignoredPlayers() {
 }
 
 function ignore(playername, playerfile) {
-    return ignoredPlayers().includes(playername) || playerfile.attributes && playerfile.attributes['stats_manager:not_on_highscores'];
+    return ignoredPlayers().includes(playername) || playerfile && playerfile.attributes && playerfile.attributes['stats_manager:not_on_highscores'];
 }
 
 module.exports = {
