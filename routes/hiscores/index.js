@@ -14,10 +14,10 @@ router.get('/', function (req, res, next) {
       "/hiscores/playersBySkill/:world/:id",
       "/hiscores/playerSkills/:world/:playername",
       "/hiscores/rankedMap/:world",
-      "/hiscores/getServerTotalXp/:restrictions",
-      "/hiscores/getServerTotalSlayerTasks/:restrictions",
-      "/hiscores/getServerTotalAttribute/:attribute",
-      "/hiscores/getServerTotalAttribute/:attribute/:restrictions"
+      "/hiscores/getWorldTotalXp/:world/:restrictions",
+      "/hiscores/getWorldTotalSlayerTasks/:world/:restrictions",
+      "/hiscores/getWorldTotalAttribute/:world/:attribute",
+      "/hiscores/getWorldTotalAttribute/:world/:attribute/:restrictions"
     ]
   });
 });
@@ -50,20 +50,20 @@ router.get('/rankedMap/:world', function (req, res, next) {
   res.json(rankcalculator.getRankedMap(Number(req.params.world)));
 });
 
-router.get('/getServerTotalXp/:restrictions', function (req, res, next) {
-  res.json(parsers.getServerTotalXp(JSON.parse(decodeURI(req.params.restrictions))));
+router.get('/getWorldTotalXp/:world/:restrictions', function (req, res, next) {
+  res.json(parsers.getWorldTotalXp(Number(req.params.world)), JSON.parse(decodeURI(req.params.restrictions))));
 });
 
-router.get('/getServerTotalSlayerTasks/:restrictions', function (req, res, next) {
-  res.json(parsers.getServerTotalSlayerTasks(JSON.parse(decodeURI(req.params.restrictions))));
+router.get('/getWorldTotalSlayerTasks/:world/:restrictions', function (req, res, next) {
+  res.json(parsers.getWorldTotalSlayerTasks(Number(req.params.world), JSON.parse(decodeURI(req.params.restrictions))));
 });
 
-router.get('/getServerTotalAttribute/:attribute/', function (req, res, next) {
-  res.json(parsers.genericServerTotalAttributeCalculator(req.params.attribute));
+router.get('/getWorldTotalAttribute/:world/:attribute/', function (req, res, next) {
+  res.json(parsers.genericServerTotalAttributeCalculator(Number(req.params.world), req.params.attribute));
 });
 
-router.get('/getServerTotalAttribute/:attribute/:restrictions', function (req, res, next) {
-  res.json(parsers.genericServerTotalAttributeCalculator(req.params.attribute, JSON.parse(decodeURI(req.params.restrictions))));
+router.get('/getWorldTotalAttribute/:world/:attribute/:restrictions', function (req, res, next) {
+  res.json(parsers.genericServerTotalAttributeCalculator(Number(req.params.world), req.params.attribute, JSON.parse(decodeURI(req.params.restrictions))));
 });
 
 module.exports = router;

@@ -81,10 +81,10 @@ function playerSkills(world, playername) {
  * @param {[String]} details 
  * @param {Object} restrictions - filter to provide (i.e only ironmen)
  */
-function genericServerTotalCalculator(details, restrictions) {
+function genericServerTotalCalculator(world, details, restrictions) {
     sum = 0;
     playerSaves().forEach(player => {
-        stat = JSON.parse(fs.readFileSync(`${config.world1_save_path}/${player}.json`, 'utf8'));
+        stat = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player}.json`, 'utf8'));
         if (!ignore(player, stat)) {
 
             // (Optional) check for restrictions
@@ -109,22 +109,22 @@ function genericServerTotalCalculator(details, restrictions) {
     return sum;
 }
 
-function getServerTotalXp(restrictions) {
+function getWorldTotalXp(world, restrictions) {
     total_xp = 0;
     for (let i = 0; i < 24; i++) {
-        total_xp += Number(genericServerTotalCalculator(["skills", `${i}`, "experience"], restrictions));
+        total_xp += Number(genericServerTotalCalculator(world, ["skills", `${i}`, "experience"], restrictions));
     }
     return { total_xp };
 }
 
-function getServerTotalSlayerTasks(restrictions) {
-    return { total_tasks: genericServerTotalCalculator(["slayer", "totalTasks"], restrictions) };
+function getWorldTotalSlayerTasks(world, restrictions) {
+    return { total_tasks: genericServerTotalCalculator(world, ["slayer", "totalTasks"], restrictions) };
 }
 
-function genericServerTotalAttributeCalculator(attribute, restrictions) {
+function genericServerTotalAttributeCalculator(world, attribute, restrictions) {
     sum = 0;
     playerSaves().forEach(player => {
-        stat = JSON.parse(fs.readFileSync(`${config.world1_save_path}/${player}.json`, 'utf8'));
+        stat = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player}.json`, 'utf8'));
         if (!ignore(player, stat)) {
 
             // (Optional) check for restrictions
@@ -166,8 +166,8 @@ module.exports = {
     playersBySkill,
     playerSkills,
     playersByTotal,
-    getServerTotalXp,
-    getServerTotalSlayerTasks,
+    getWorldTotalXp,
+    getWorldTotalSlayerTasks,
     genericServerTotalAttributeCalculator,
     ignoredPlayers,
     ignore
