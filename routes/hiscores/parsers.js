@@ -5,9 +5,9 @@ const fs = require('fs');
  * Gets all the player usernames on 2009scape
  * 
  */
-function playerSaves() {
+function playerSaves(world) {
     players = [];
-    fs.readdirSync(config.player_save_path).forEach(file => {
+    fs.readdirSync(world === 1 ? config.world1_save_path : config.world2_save_path).forEach(file => {
         if (file.endsWith(".json") && !ignore(file.split(".")[0])) {
             players.push(file.split(".")[0]);
         }
@@ -15,11 +15,11 @@ function playerSaves() {
     return players;
 }
 
-function playersByTotal() {
+function playersByTotal(world) {
     totalPlayersExp = 0;
     beautifulMap = [];
     playerSaves().forEach(player => {
-        playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        playerStats = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player}.json`, 'utf8'));
         if (!ignore(player, playerStats)) {
             level = 0;
             xp = 0;
@@ -45,10 +45,10 @@ function playersByTotal() {
     });
 }
 
-function playersBySkill(skillid) {
+function playersBySkill(world, skillid) {
     beautifulMap = [];
     playerSaves().forEach(player => {
-        playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        playerStats = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player}.json`, 'utf8'));
         if (!ignore(player, playerStats)) {
             beautifulMap.push({
                 username: player,
@@ -62,8 +62,8 @@ function playersBySkill(skillid) {
     return beautifulMap.sort((a, b) => b.xp - a.xp);
 }
 
-function playerSkills(playername) {
-    playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${playername}.json`, 'utf8'));
+function playerSkills(world, playername) {
+    playerStats = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${playername}.json`, 'utf8'));
     return {
         skills: playerStats.skills,
         info: {
@@ -84,7 +84,7 @@ function playerSkills(playername) {
 function genericServerTotalCalculator(details, restrictions) {
     sum = 0;
     playerSaves().forEach(player => {
-        stat = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        stat = JSON.parse(fs.readFileSync(`${config.world1_save_path}/${player}.json`, 'utf8'));
         if (!ignore(player, stat)) {
 
             // (Optional) check for restrictions
@@ -124,7 +124,7 @@ function getServerTotalSlayerTasks(restrictions) {
 function genericServerTotalAttributeCalculator(attribute, restrictions) {
     sum = 0;
     playerSaves().forEach(player => {
-        stat = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        stat = JSON.parse(fs.readFileSync(`${config.world1_save_path}/${player}.json`, 'utf8'));
         if (!ignore(player, stat)) {
 
             // (Optional) check for restrictions

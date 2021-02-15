@@ -2,18 +2,18 @@ var express = require('express');
 var router = express.Router();
 let config = require("../../config");
 let parsers = require("./parsers");
-const rankedMap = require('./rankcalculator');
+const rankcalculator = require('./rankcalculator');
 
 router.get('/', function (req, res, next) {
   res.json({
     existing_routes: [
       "/hiscores/config",
-      "/hiscores/listPlayers",
+      "/hiscores/listPlayers/:world",
       "/hiscores/ignoredPlayers",
-      "/hiscores/playersByTotal",
-      "/hiscores/playersBySkill/:id",
-      "/hiscores/playerSkills/:playername",
-      "/hiscores/rankedMap",
+      "/hiscores/playersByTotal/:world",
+      "/hiscores/playersBySkill/:world/:id",
+      "/hiscores/playerSkills/:world/:playername",
+      "/hiscores/rankedMap/:world",
       "/hiscores/getServerTotalXp/:restrictions",
       "/hiscores/getServerTotalSlayerTasks/:restrictions",
       "/hiscores/getServerTotalAttribute/:attribute",
@@ -26,28 +26,28 @@ router.get('/config', function (req, res, next) {
   res.json(config);
 });
 
-router.get('/listPlayers', function (req, res, next) {
-  res.json(parsers.playerSaves());
+router.get('/listPlayers/:world', function (req, res, next) {
+  res.json(parsers.playerSaves(Number(req.params.world)));
 });
 
 router.get('/ignoredPlayers', function (req, res, next) {
   res.json(parsers.ignoredPlayers());
 });
 
-router.get('/playersByTotal', function (req, res, next) {
-  res.json(parsers.playersByTotal());
+router.get('/playersByTotal/:world', function (req, res, next) {
+  res.json(parsers.playersByTotal(Number(req.params.world)));
 });
 
-router.get('/playersBySkill/:id', function (req, res, next) {
-  res.json(parsers.playersBySkill(req.params.id));
+router.get('/playersBySkill/:world/:id', function (req, res, next) {
+  res.json(parsers.playersBySkill(Number(req.params.world), req.params.id));
 });
 
-router.get('/playerSkills/:playername', function (req, res, next) {
-  res.json(parsers.playerSkills(req.params.playername));
+router.get('/playerSkills/:world/:playername', function (req, res, next) {
+  res.json(parsers.playerSkills(Number(req.params.world), req.params.playername));
 });
 
-router.get('/rankedMap', function (req, res, next) {
-  res.json(rankedMap);
+router.get('/rankedMap/:world', function (req, res, next) {
+  res.json(rankcalculator.getRankedMap(Number(req.params.world)));
 });
 
 router.get('/getServerTotalXp/:restrictions', function (req, res, next) {

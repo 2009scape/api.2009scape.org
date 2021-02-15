@@ -2,8 +2,8 @@ const config = require("../../config");
 let parsers = require("./parsers");
 const fs = require('fs');
 
-function createRankMap() {
-    console.log("Creating ranked map...");
+function createRankMap(world) {
+    console.log(`Creating world ${world} ranked map...`);
 
     skills = [];
     for (let i = 0; i < 24; i++) {
@@ -11,7 +11,7 @@ function createRankMap() {
     }
 
     parsers.playerSaves().forEach(player => {
-        playerStats = JSON.parse(fs.readFileSync(`${config.player_save_path}/${player}.json`, 'utf8'));
+        playerStats = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player}.json`, 'utf8'));
         if (!parsers.ignore(player, playerStats)) {
 
             playerStats.skills.forEach((skill, index) => {
@@ -37,4 +37,13 @@ function createRankMap() {
     return skills;
 }
 
-module.exports = createRankMap();
+let world1RankedMap = createRankMap(1);
+let world2RankedMap = createRankMap(2);
+
+function getRankedMap(world) {
+    return world === 1 ? world1RankedMap : world2RankedMap;
+}
+
+module.exports = {
+    getRankedMap
+}
