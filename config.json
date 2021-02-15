@@ -1,3 +1,4 @@
 {
-    "player_save_path": "../2009scape/Server/data/players"
+    "world1_save_path": "../2009scape/Server/data/players",
+    "world2_save_path": "../2009scape/Server/data/players"
 }
