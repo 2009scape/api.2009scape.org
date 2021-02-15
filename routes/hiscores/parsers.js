@@ -5,7 +5,7 @@ const fs = require('fs');
  * Gets all the player usernames on 2009scape
  * 
  */
-function playerSaves(world) {
+function playerSaves(world = 1) {
     players = [];
     fs.readdirSync(world === 1 ? config.world1_save_path : config.world2_save_path).forEach(file => {
         if (file.endsWith(".json") && !ignore(file.split(".")[0])) {
@@ -18,7 +18,7 @@ function playerSaves(world) {
 function playersByTotal(world) {
     totalPlayersExp = 0;
     beautifulMap = [];
-    playerSaves().forEach(player => {
+    playerSaves(world).forEach(player => {
         playerStats = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player}.json`, 'utf8'));
         if (!ignore(player, playerStats)) {
             level = 0;
@@ -47,7 +47,7 @@ function playersByTotal(world) {
 
 function playersBySkill(world, skillid) {
     beautifulMap = [];
-    playerSaves().forEach(player => {
+    playerSaves(world).forEach(player => {
         playerStats = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player}.json`, 'utf8'));
         if (!ignore(player, playerStats)) {
             beautifulMap.push({

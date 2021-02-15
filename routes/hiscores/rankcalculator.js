@@ -10,7 +10,7 @@ function createRankMap(world) {
         skills[i] = [];
     }
 
-    parsers.playerSaves().forEach(player => {
+    parsers.playerSaves(world).forEach(player => {
         playerStats = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player}.json`, 'utf8'));
         if (!parsers.ignore(player, playerStats)) {
 
