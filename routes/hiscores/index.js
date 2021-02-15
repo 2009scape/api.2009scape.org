@@ -51,7 +51,7 @@ router.get('/rankedMap/:world', function (req, res, next) {
 });
 
 router.get('/getWorldTotalXp/:world/:restrictions', function (req, res, next) {
-  res.json(parsers.getWorldTotalXp(Number(req.params.world)), JSON.parse(decodeURI(req.params.restrictions))));
+  res.json(parsers.getWorldTotalXp(Number(req.params.world), JSON.parse(decodeURI(req.params.restrictions))));
 });
 
 router.get('/getWorldTotalSlayerTasks/:world/:restrictions', function (req, res, next) {
