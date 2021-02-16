@@ -5,7 +5,7 @@ const fs = require('fs');
  * Gets all the player usernames on 2009scape
  * 
  */
-function playerSaves(world = 1) {
+function playerSaves() {
     players = [];
     fs.readdirSync(world === 1 ? config.world1_save_path : config.world2_save_path).forEach(file => {
         if (file.endsWith(".json") && !ignore(file.split(".")[0])) {
@@ -83,7 +83,7 @@ function playerSkills(world, playername) {
  */
 function genericServerTotalCalculator(world, details, restrictions) {
     sum = 0;
-    playerSaves().forEach(player => {
+    playerSaves(world).forEach(player => {
         stat = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player}.json`, 'utf8'));
         if (!ignore(player, stat)) {
 
@@ -123,7 +123,7 @@ function getWorldTotalSlayerTasks(world, restrictions) {
 
 function genericServerTotalAttributeCalculator(world, attribute, restrictions) {
     sum = 0;
-    playerSaves().forEach(player => {
+    playerSaves(world).forEach(player => {
         stat = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player}.json`, 'utf8'));
         if (!ignore(player, stat)) {
 
