@@ -5,7 +5,7 @@ const fs = require('fs');
  * Gets all the player usernames on 2009scape
  * 
  */
-function playerSaves() {
+function playerSaves(world) {
     players = [];
     fs.readdirSync(world === 1 ? config.world1_save_path : config.world2_save_path).forEach(file => {
         if (file.endsWith(".json") && !ignore(file.split(".")[0])) {
