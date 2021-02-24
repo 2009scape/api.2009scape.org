@@ -158,7 +158,7 @@ function ignoredPlayers() {
 }
 
 function ignore(playername, playerfile) {
-    return ignoredPlayers().includes(playername) || playerfile && playerfile.attributes && playerfile.attributes.find(attr => attr.key === "not_on_hiscores");
+    return ignoredPlayers().includes(playername) || playerfile && playerfile.attributes && playerfile.attributes.find(attr => attr.key === "not_on_highscores");
 }
 
 module.exports = {
