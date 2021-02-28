@@ -43,7 +43,7 @@ router.get('/playersBySkill/:world/:id', function (req, res, next) {
 });
 
 router.get('/playerSkills/:world/:playername', function (req, res, next) {
-  res.json(parsers.playerSkills(Number(req.params.world), req.params.playername));
+  res.json(parsers.playerSkills(Number(req.params.world), JSON.parse(decodeURI(req.params.playername))));
 });
 
 router.get('/rankedMap/:world', function (req, res, next) {
