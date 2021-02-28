@@ -63,7 +63,7 @@ function playersBySkill(world, skillid) {
 }
 
 function playerSkills(world, playername) {
-    playerStats = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${playername}.json`, 'utf8'));
+    playerStats = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${playername.split(" ").join("_")}.json`, 'utf8'));
     return {
         skills: playerStats.skills,
         info: {
@@ -84,7 +84,7 @@ function playerSkills(world, playername) {
 function genericServerTotalCalculator(world, details, restrictions) {
     sum = 0;
     playerSaves(world).forEach(player => {
-        stat = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player}.json`, 'utf8'));
+        stat = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player.split(" ").join("_")}.json`, 'utf8'));
         if (!ignore(player, stat)) {
 
             // (Optional) check for restrictions
@@ -124,7 +124,7 @@ function getWorldTotalSlayerTasks(world, restrictions) {
 function genericServerTotalAttributeCalculator(world, attribute, restrictions) {
     sum = 0;
     playerSaves(world).forEach(player => {
-        stat = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player}.json`, 'utf8'));
+        stat = JSON.parse(fs.readFileSync(`${world === 1 ? config.world1_save_path : config.world2_save_path}/${player.split(" ").join("_")}.json`, 'utf8'));
         if (!ignore(player, stat)) {
 
             // (Optional) check for restrictions
